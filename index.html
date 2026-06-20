@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy 4th Monthsary 💕</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      overflow-x: hidden;
+      background: linear-gradient(135deg, #fff0f3 0%, #fce4ec 30%, #f8bbd0 60%, #f48fb1 100%);
+      min-height: 100vh;
+      color: #880e4f;
+    }
+    /* ══ Animations ══ */
+    @keyframes heartbeat {
+      0%,100% { transform: scale(1); }
+      14% { transform: scale(1.3); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.3); }
+      70% { transform: scale(1); }
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) scale(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-10vh) scale(1) rotate(720deg); opacity: 0; }
+    }
+    @keyframes gentleFloat {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    @keyframes pulse {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    @keyframes bounceAnim {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .heartbeat { animation: heartbeat 1.5s ease-in-out infinite; }
+    .gentle { animation: gentleFloat 3s ease-in-out infinite; }
+    .pulse { animation: pulse 2s ease-in-out infinite; }
+    .bounce { animation: bounceAnim 1.5s ease-in-out infinite; }
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(.22,1,.36,1), transform 0.8s cubic-bezier(.22,1,.36,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    /* Glass card */
+    .glass {
+      background: rgba(255,255,255,0.25);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 1.5rem;
+      box-shadow: 0 8px 32px rgba(136,14,79,0.10);
+    }
+    /* Gradient text */
+    .gradient-text {
+      background: linear-gradient(90deg, #e91e63, #f06292, #ec407a, #d81b60, #e91e63);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 4s linear infinite;
+    }
+    /* Floating hearts */
+    #hearts-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .f-heart {
+      position: absolute;
+      animation: floatUp linear infinite;
+      user-select: none;
+    }
+    /* Countdown */
+    .cd-box {
+      background: rgba(255,255,255,0.25);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 1rem;
+      min-width: 70px;
+      padding: 1rem 1.2rem;
+      text-align: center;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+    .cd-num { font-size: 2rem; font-weight: 700; color: #fff; text-shadow: 1px 1px 3px rgba(0,0,0,0.15); }
+    .cd-label { font-size: 0.7rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.25rem; }
+    /* Timeline */
+    .tl-wrap { position: relative; padding-left: 3rem; }
+    @media (min-width: 768px) { .tl-wrap { padding-left: 0; } }
+    .tl-line {
+      position: absolute; left: 1.25rem; top: 0; bottom: 0;
+      width: 3px; background: linear-gradient(to bottom, #f48fb1, #ec407a, #f48fb1);
+      border-radius: 999px;
+    }
+    @media (min-width: 768px) { .tl-line { left: 50%; transform: translateX(-50%); } }
+    .tl-dot {
+      width: 1rem; height: 1rem; background: #f48fb1;
+      border: 3px solid #fff; border-radius: 50%;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      position: absolute; left: 0.85rem; top: 1.5rem; z-index: 1;
+    }
+    @media (min-width: 768px) { .tl-dot { left: 50%; transform: translateX(-50%); } }
+    /* Button */
+    .reveal-btn {
+      background: rgba(255,255,255,0.25);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 999px;
+      padding: 1rem 2.5rem;
+      font-size: 1.1rem; font-weight: 600; color: #c2185b;
+      cursor: pointer; transition: all 0.3s; font-family: inherit;
+    }
+    .reveal-btn:hover { background: rgba(255,255,255,0.45); transform: scale(1.05); box-shadow: 0 6px 24px rgba(136,14,79,0.15); }
+    /* Reason card */
+    .reason-card { transition: transform 0.3s, box-shadow 0.3s; }
+    .reason-card:hover { transform: scale(1.04); box-shadow: 0 12px 40px rgba(136,14,79,0.15); }
+    /* Grid */
+    .reasons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.25rem; }
+    /* Section bg */
+    .bg-alt { background: linear-gradient(180deg, transparent, rgba(255,255,255,0.18) 15%, rgba(255,255,255,0.18) 85%, transparent); }
+    /* Countdown banner */
+    .cd-banner { background: linear-gradient(90deg, #ec407a, #f06292, #e91e63); padding: 2.5rem 1rem; position: relative; z-index: 1; }
+    /* Fonts */
+    .script { font-family: 'Dancing Script', cursive; }
+    .t-shadow { text-shadow: 2px 2px 6px rgba(0,0,0,0.08); }
+    section { position: relative; z-index: 1; }
+  </style>
+</head>
+<body>
+<!-- Floating Hearts -->
+<div id="hearts-bg"></div>
+<!-- ═══ HERO ═══ -->
+<section style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;text-align:center;">
+  <div>
+    <div class="heartbeat" style="font-size:5rem;margin-bottom:1rem;">💕</div>
+    <h1 style="font-size:clamp(2.5rem,8vw,5rem);font-weight:800;line-height:1.15;color:#ad1457;" class="t-shadow">
+      Happy 4th<br/><span class="gradient-text">Monthsary</span>
+    </h1>
+    <p style="font-size:clamp(1rem,3vw,1.35rem);color:#c2185b;font-weight:300;max-width:500px;margin:1.5rem auto 0;line-height:1.6;">
+      4 months of loving you, and it only gets better every day ✨
+    </p>
+    <div class="bounce" style="margin-top:2rem;font-size:1.8rem;color:#f48fb1;">👇</div>
+  </div>
+</section>
+<!-- ═══ COUNTDOWN ═══ -->
+<section class="cd-banner" style="text-align:center;">
+  <p style="color:rgba(255,255,255,0.85);font-size:1.1rem;font-weight:300;letter-spacing:0.05em;margin-bottom:1.5rem;">
+    Counting down to our special day ✨
+  </p>
+  <div id="countdown" style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;">
+    <div class="cd-box" style="animation-delay:0s"><div class="cd-num" id="cd-d">00</div><div class="cd-label">Days</div></div>
+    <div class="cd-box" style="animation-delay:0.15s"><div class="cd-num" id="cd-h">00</div><div class="cd-label">Hours</div></div>
+    <div class="cd-box" style="animation-delay:0.3s"><div class="cd-num" id="cd-m">00</div><div class="cd-label">Mins</div></div>
+    <div class="cd-box" style="animation-delay:0.45s"><div class="cd-num" id="cd-s">00</div><div class="cd-label">Secs</div></div>
+  </div>
+  <p style="color:rgba(255,255,255,0.55);margin-top:1.25rem;font-size:0.85rem;">June 21, 2025 📅</p>
+</section>
+<!-- ═══ LOVE LETTER ═══ -->
+<section style="padding:5rem 1.5rem;">
+  <div class="glass reveal" data-reveal style="max-width:650px;margin:0 auto;padding:3rem 2.5rem;">
+    <div style="text-align:center;margin-bottom:2rem;">
+      <span class="heartbeat" style="font-size:3rem;display:inline-block;">💌</span>
+      <h2 style="font-size:1.8rem;font-weight:700;color:#880e4f;margin-top:0.75rem;">A Letter For You</h2>
+    </div>
+    <div style="color:#880e4f;line-height:1.85;font-size:1.05rem;font-style:italic;">
+      <p style="margin-bottom:1rem;">Hey Babi, 💕</p>
+
+<p style="margin-bottom:1rem;">
+If someone told me back in November 2025, during our Water Safety training, that the friend I had just met would become one of the most important people in my life, I probably wouldn't have believed them.
+</p>
+
+<p style="margin-bottom:1rem;">
+We started as friends. Just two people getting to know each other, sharing conversations, laughs, and moments that seemed ordinary at the time. Little did we know that those simple moments would become the beginning of something so beautiful.
+</p>
+
+<p style="margin-bottom:1rem;">
+Then came December. Our chats on social media became longer, our calls became more frequent, and somehow talking to you became my favorite part of every day. Every notification from you made me smile, and every call felt too short no matter how long it lasted.
+</p>
+
+<p style="margin-bottom:1rem;">
+Somewhere along the way, friendship turned into something more. Without even realizing it, I found myself looking forward to you, caring about you more deeply, and slowly falling for the amazing person you are.
+</p>
+
+<p style="margin-bottom:1rem;">
+And in February 2026, our story officially began. Becoming your partner is one of the best things that has ever happened to me. These past four months have been filled with laughter, comfort, growth, and countless memories that I will always treasure.
+</p>
+
+<p style="margin-bottom:1rem;">
+Thank you for being my safe place, my favorite person, and my greatest source of happiness. Thank you for every conversation, every laugh, every moment of understanding, and every bit of love you've given me.
+</p>
+
+<p style="margin-bottom:1rem;">
+No matter how much time passes, I hope we never lose what made us special in the first place—the friendship that became the foundation of our love.
+</p>
+
+<p style="color:#c2185b;font-weight:600;font-style:normal;">
+Happy 4th Monthsary, my Babi. Thank you for choosing me, and I promise that I'll keep choosing you every day. Here's to more memories, more adventures, and more chapters of our story together. 🌹💕
+</p>
+    </div>
+    <div style="text-align:center;margin-top:2rem;">
+      <p class="script" style="color:#e91e63;font-size:1.5rem;">With all my love, always & forever 💗</p>
+    </div>
+  </div>
+</section>
+<!-- ═══ TIMELINE ═══ -->
+<section class="bg-alt" style="padding:5rem 1.5rem;">
+  <div class="reveal" data-reveal style="text-align:center;margin-bottom:4rem;">
+  <h2 style="font-size:1.8rem;font-weight:700;color:#880e4f;">Our Love Story</h2>
+  <p style="color:#c2185b;margin-top:0.5rem;font-size:1.05rem;">From friends to soulmates 💕</p>
+</div>
+
+<div class="tl-wrap">
+  <div class="tl-line"></div>
+
+  <!-- First Meeting -->
+  <div class="reveal" data-reveal style="position:relative;margin-bottom:3rem;">
+    <div class="tl-dot pulse"></div>
+    <div class="glass" style="padding:1.5rem;">
+      <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
+        <span style="font-size:1.5rem;">🌊</span>
+        <span style="font-size:0.8rem;font-weight:600;color:#e91e63;text-transform:uppercase;letter-spacing:0.08em;">November 2025</span>
+      </div>
+      <h3 style="font-size:1.15rem;font-weight:700;color:#880e4f;margin-bottom:0.5rem;">Where It All Started ✨</h3>
+      <p style="color:#ad1457;line-height:1.65;font-size:0.95rem;">
+        We first met during our Water Safety training. Back then, we were just friends, unaware that a beautiful love story was quietly beginning.
+      </p>
+    </div>
+  </div>
+
+  <!-- Social Media -->
+  <div class="reveal" data-reveal style="position:relative;margin-bottom:3rem;">
+    <div class="tl-dot pulse"></div>
+    <div class="glass" style="padding:1.5rem;">
+      <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
+        <span style="font-size:1.5rem;">📱</span>
+        <span style="font-size:0.8rem;font-weight:600;color:#e91e63;text-transform:uppercase;letter-spacing:0.08em;">December 2025</span>
+      </div>
+      <h3 style="font-size:1.15rem;font-weight:700;color:#880e4f;margin-bottom:0.5rem;">Friends Becoming Closer 💬</h3>
+      <p style="color:#ad1457;line-height:1.65;font-size:0.95rem;">
+        What started as simple chats on social media slowly turned into long conversations. Messages became calls, and suddenly talking to each other became the best part of our days.
+      </p>
+    </div>
+  </div>
+
+  <!-- Feelings -->
+  <div class="reveal" data-reveal style="position:relative;margin-bottom:3rem;">
+    <div class="tl-dot pulse"></div>
+    <div class="glass" style="padding:1.5rem;">
+      <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
+        <span style="font-size:1.5rem;">🦋</span>
+        <span style="font-size:0.8rem;font-weight:600;color:#e91e63;text-transform:uppercase;letter-spacing:0.08em;">January 2026</span>
+      </div>
+      <h3 style="font-size:1.15rem;font-weight:700;color:#880e4f;margin-bottom:0.5rem;">The Butterflies Arrived 💖</h3>
+      <p style="color:#ad1457;line-height:1.65;font-size:0.95rem;">
+        Somewhere between the late-night calls and endless conversations, friendship became something more. Before we even realized it, we had already fallen for each other.
+      </p>
+    </div>
+  </div>
+
+  <!-- Official -->
+  <div class="reveal" data-reveal style="position:relative;margin-bottom:3rem;">
+    <div class="tl-dot pulse"></div>
+    <div class="glass" style="padding:1.5rem;">
+      <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
+        <span style="font-size:1.5rem;">❤️</span>
+        <span style="font-size:0.8rem;font-weight:600;color:#e91e63;text-transform:uppercase;letter-spacing:0.08em;">February 2026</span>
+      </div>
+      <h3 style="font-size:1.15rem;font-weight:700;color:#880e4f;margin-bottom:0.5rem;">Us 🌹</h3>
+      <p style="color:#ad1457;line-height:1.65;font-size:0.95rem;">
+        The month we stopped being just friends and became something much more beautiful. The beginning of "us"—my favorite chapter and the one I never want to end.
+      </p>
+    </div>
+  </div>
+
+  <!-- Today -->
+  <div class="reveal" data-reveal style="position:relative;">
+    <div class="tl-dot pulse"></div>
+    <div class="glass" style="padding:1.5rem;">
+      <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;">
+        <span style="font-size:1.5rem;">🥂</span>
+        <span style="font-size:0.8rem;font-weight:600;color:#e91e63;text-transform:uppercase;letter-spacing:0.08em;">Today</span>
+      </div>
+      <h3 style="font-size:1.15rem;font-weight:700;color:#880e4f;margin-bottom:0.5rem;">4 Months Later 💕</h3>
+      <p style="color:#ad1457;line-height:1.65;font-size:0.95rem;">
+        From strangers, to friends, to lovers. Four months later, you're still my favorite person to talk to, laugh with, and love. Here's to all the chapters we haven't written yet.
+      </p>
+    </div>
+  </div>
+</div>
+</section>
+<!-- ═══ 10 REASONS ═══ -->
+<section style="padding:5rem 1.5rem;">
+  <div style="max-width:800px;margin:0 auto;">
+    <div class="reveal" data-reveal style="text-align:center;margin-bottom:3rem;">
+      <span class="gentle" style="font-size:3rem;display:inline-block;">💝</span>
+      <h2 style="font-size:1.8rem;font-weight:700;color:#880e4f;margin-top:0.75rem;">10 Reasons I Love You</h2>
+      <p style="color:#c2185b;margin-top:0.5rem;font-size:1.05rem;">...and there are a million more 🌹</p>
+    </div>
+    <div class="reasons-grid" id="reasons-grid"></div>
+  </div>
+</section>
+<!-- ═══ PROMISES ═══ -->
+<section class="bg-alt" style="padding:5rem 1.5rem;">
+  <div style="max-width:650px;margin:0 auto;text-align:center;">
+    <div class="reveal" data-reveal>
+      <span class="heartbeat" style="font-size:3rem;display:inline-block;">🤞</span>
+      <h2 style="font-size:1.8rem;font-weight:700;color:#880e4f;margin-top:0.75rem;">My Promises To You</h2>
+      <p style="color:#c2185b;margin-top:0.5rem;margin-bottom:2rem;font-size:1.05rem;">Tap to reveal my promises 💕</p>
+      <button class="reveal-btn gentle" id="reveal-btn">💌 Open My Heart</button>
+      <div id="promises-list" style="display:none;margin-top:2rem;text-align:left;"></div>
+    </div>
+  </div>
+</section>
+<!-- ═══ FOOTER ═══ -->
+<footer style="padding:5rem 1.5rem 3rem;text-align:center;position:relative;z-index:1;">
+  <div style="max-width:550px;margin:0 auto;">
+    <div class="gentle" style="font-size:3.5rem;margin-bottom:1rem;">💗</div>
+    <h2 style="font-size:clamp(1.6rem,5vw,2.5rem);font-weight:700;color:#880e4f;margin-bottom:1rem;">I Love You More Than Words</h2>
+    <p style="color:#ad1457;line-height:1.7;font-size:1.05rem;max-width:420px;margin:0 auto;">
+      Thank you for being the best thing that ever happened to me. Here's to 4 months, and to every beautiful month that comes after.
+    </p>
+    <div style="margin-top:2.5rem;">
+      <p style="font-size:1.25rem;color:#e91e63;font-weight:300;letter-spacing:0.15em;">June 21, 2025</p>
+      <div style="display:flex;justify-content:center;gap:0.5rem;font-size:1.8rem;margin-top:1rem;">
+        <span class="pulse" style="animation-delay:0s">❤️</span>
+        <span class="pulse" style="animation-delay:0.2s">🧡</span>
+        <span class="pulse" style="animation-delay:0.4s">💛</span>
+        <span class="pulse" style="animation-delay:0.6s">💚</span>
+        <span class="pulse" style="animation-delay:0.8s">💙</span>
+        <span class="pulse" style="animation-delay:1.0s">💜</span>
+        <span class="pulse" style="animation-delay:1.2s">🩷</span>
+      </div>
+      <p class="script" style="color:#f48fb1;font-size:1.3rem;margin-top:1.5rem;">Made with all my love, just for you 💕</p>
+    </div>
+  </div>
+</footer>
+<!-- ═══ JAVASCRIPT ═══ -->
+<script>
+  /* Floating Hearts */
+  (function() {
+    var bg = document.getElementById('hearts-bg');
+    var emojis = ['❤️','💕','💗','💖','💓','🩷','🌸','✨','💘','🦋'];
+    for (var i = 0; i < 25; i++) {
+      var el = document.createElement('div');
+      el.className = 'f-heart';
+      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      el.style.left = Math.random() * 100 + '%';
+      el.style.fontSize = (Math.random() * 20 + 12) + 'px';
+      el.style.animationDuration = (Math.random() * 10 + 8) + 's';
+      el.style.animationDelay = (Math.random() * 15) + 's';
+      el.style.opacity = (Math.random() * 0.4 + 0.3).toFixed(2);
+      bg.appendChild(el);
+    }
+  })();
+  /* Countdown */
+  (function() {
+    var target = new Date('2025-06-21T00:00:00');
+    function tick() {
+      var diff = target.getTime() - Date.now();
+      if (diff <= 0) {
+        document.getElementById('countdown').innerHTML =
+          '<div style="text-align:center;color:#fff;">' +
+          '<div class="heartbeat" style="font-size:4rem;margin-bottom:0.5rem;">🎉</div>' +
+          '<h2 style="font-size:2rem;font-weight:700;">Happy 4th Monthsary!</h2>' +
+          '<p style="font-size:1.1rem;opacity:0.9;margin-top:0.5rem;">Today is our special day! 💕</p></div>';
+        return;
+      }
+      document.getElementById('cd-d').textContent = String(Math.floor(diff / 864e5)).padStart(2, '0');
+      document.getElementById('cd-h').textContent = String(Math.floor((diff / 36e5) % 24)).padStart(2, '0');
+      document.getElementById('cd-m').textContent = String(Math.floor((diff / 6e4) % 60)).padStart(2, '0');
+      document.getElementById('cd-s').textContent = String(Math.floor((diff / 1e3) % 60)).padStart(2, '0');
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+  /* Reasons */
+  (function() {
+    var reasons = [
+      { e: '😊', t: 'Your beautiful smile that lights up my entire world' },
+      { e: '🤗', t: 'The way you make me feel safe and loved' },
+      { e: '😂', t: 'Your adorable laugh that makes my heart melt' },
+      { e: '💪', t: 'How strong and amazing you are in everything you do' },
+      { e: '🧠', t: 'Your brilliant mind and the way you think about things' },
+      { e: '🫶', t: 'The warmth of your hugs that feel like home' },
+      { e: '💝', t: 'Your kind and beautiful heart, inside and out' },
+      { e: '✨', t: 'The way you make every ordinary day feel extraordinary' },
+      { e: '🥰', t: 'Your cute little quirks that make you so perfectly you' },
+      { e: '🌟', t: 'Because you are you, and that is everything to me' }
+    ];
+    var grid = document.getElementById('reasons-grid');
+    reasons.forEach(function(r, i) {
+      var card = document.createElement('div');
+      card.className = 'glass reason-card reveal';
+      card.setAttribute('data-reveal', '');
+      card.style.transitionDelay = (i * 0.08) + 's';
+      card.innerHTML = '<div style="display:flex;align-items:center;gap:1rem;padding:1.25rem;">' +
+        '<span style="font-size:2rem;flex-shrink:0;">' + r.e + '</span>' +
+        '<p style="color:#880e4f;font-weight:500;font-size:0.95rem;line-height:1.4;">' + r.t + '</p></div>';
+      grid.appendChild(card);
+    });
+  })();
+  /* Promises */
+  (function() {
+    var promises = [
+      'To always make you smile, even on your hardest days 😊',
+      'To be your biggest cheerleader in everything you do 📣',
+      "To listen to your stories, even the ones I've heard before 👂",
+      'To hold your hand through every storm and every sunshine ☀️',
+      'To never go to bed without telling you I love you 💤',
+      'To surprise you with little things just because 💝',
+      'To be your safe space, always and no matter what 🏡',
+      'To love you more each day than the day before 📈',
+      'To choose you, every single day, for the rest of my life 💍'
+    ];
+    var btn = document.getElementById('reveal-btn');
+    var list = document.getElementById('promises-list');
+    btn.addEventListener('click', function() {
+      btn.style.display = 'none';
+      list.style.display = 'block';
+      promises.forEach(function(p, i) {
+        var div = document.createElement('div');
+        div.className = 'glass';
+        div.style.cssText = 'padding:1rem 1.25rem;margin-bottom:0.75rem;opacity:0;transform:translateY(30px);transition:all 0.6s cubic-bezier(.22,1,.36,1);transition-delay:' + (i * 0.1) + 's;';
+        div.innerHTML = '<p style="color:#880e4f;font-size:0.95rem;line-height:1.5;">' + p + '</p>';
+        list.appendChild(div);
+        requestAnimationFrame(function() {
+          div.style.opacity = '1';
+          div.style.transform = 'translateY(0)';
+        });
+      });
+    });
+  })();
+  /* Scroll Reveal */
+  (function() {
+    function check() {
+      var els = document.querySelectorAll('.reveal:not(.visible)');
+      els.forEach(function(el) {
+        var rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.88) {
+          el.classList.add('visible');
+        }
+      });
+    }
+    window.addEventListener('scroll', check, { passive: true });
+    window.addEventListener('resize', check);
+    check();
+  })();
+</script>
+</body>
+</html>
